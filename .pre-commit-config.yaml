@@ -22,6 +22,8 @@ repos:
     rev: v3.0.3
     hooks:
         -   id: pylint
+            name: pylint
+            entry: conda run -n era-weather pylint
             args:
                 - --max-line-length=88
                 - -j 0
