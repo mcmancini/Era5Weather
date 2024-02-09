@@ -24,6 +24,8 @@ repos:
         -   id: pylint
             name: pylint
             entry: conda run -n era-weather pylint
+            language: system
+            types: [python]
             args:
                 - --max-line-length=88
                 - -j 0
