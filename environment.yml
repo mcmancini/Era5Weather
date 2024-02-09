@@ -1,0 +1,11 @@
+name: era-weather
+channels:
+  - defaults
+  - conda-forge
+dependencies:
+  - python=3.12
+  - black
+  - pre-commit
+  - pylint
+  - pip
+  - pip:
