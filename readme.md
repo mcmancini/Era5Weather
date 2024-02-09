@@ -1,5 +1,5 @@
 # ERA5 Historic Weather download
-Series of scripts to download and process [ERA5 historic weather](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview) to be used as input of the [UK implementation of the WOFOST crop yiled model](https://github.com/mcmancini/UkWofost)
+Series of scripts to download and process [ERA5 historic weather](https://cds.climate.copernicus.eu/cdsapp#!/dataset/reanalysis-era5-single-levels?tab=overview) to be used as input of the [UK implementation of the WOFOST crop yield model](https://github.com/mcmancini/UkWofost)
 
 ## Content
 - [Quickstart](#quickstart)
