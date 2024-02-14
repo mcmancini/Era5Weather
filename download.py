@@ -12,8 +12,8 @@ import cdsapi
 
 c = cdsapi.Client()
 
-FIRST_YEAR = 2016
-LAST_YEAR = 2017
+FIRST_YEAR = 2021
+LAST_YEAR = 2022
 
 for year in range(FIRST_YEAR, LAST_YEAR + 1):
     for month in range(1, 13):
@@ -23,7 +23,18 @@ for year in range(FIRST_YEAR, LAST_YEAR + 1):
             "reanalysis-era5-single-levels",
             {
                 "product_type": "reanalysis",
-                "variable": "2m_temperature",
+                "variable": [
+                    "2m_temperature",
+                    "surface_pressure",
+                    "10m_u_component_of_wind",
+                    "10m_v_component_of_wind",
+                    "total_precipitation",
+                    "total_cloud_cover",
+                    "mean_surface_net_long_wave_radiation_flux",
+                    "mean_surface_downward_long_wave_radiation_flux",
+                    "total_sky_direct_solar_radiation_at_surface",
+                    "surface_solar_radiation_downwards",
+                ],
                 "year": str(year),
                 "month": f"{month:02d}",
                 "day": [
@@ -93,5 +104,6 @@ for year in range(FIRST_YEAR, LAST_YEAR + 1):
                 ],
                 "format": "nc",
             },
-            f"{year}-{month:02d}.nc",
+            f"C:/Users/mcm216/Documents/OneDrive - University of Exeter/"
+            f"Data/Climate Data/ERA5/era5_surface_ukeire_{year}-{month:02d}.nc",
         )
