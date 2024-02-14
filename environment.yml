@@ -5,7 +5,10 @@ channels:
 dependencies:
   - python=3.12
   - black
+  - netcdf4
   - pre-commit
   - pylint
   - pip
+  - xarray
+  - pyyaml
   - pip:
