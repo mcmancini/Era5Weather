@@ -7,6 +7,7 @@ weather for each 1km cell in the British National Grid.
 """
 
 import numpy as np
+import pandas as pd
 from pyproj import Transformer
 import xarray as xr
 from era_weather.utils import relative_humidity
@@ -49,7 +50,9 @@ def rechunk_data(row, yearly_file_list, output_path):
     transformer = Transformer.from_crs(27700, 4326, always_xy=True)
     coords_lonlat = transformer.transform(cell_coordinates[0], cell_coordinates[1])
     cell_name = row["tile_name"]
+    output = pd.DataFrame()
     for file in yearly_file_list:
         weather_time_series = process_weather_cell(file, coords_lonlat)
-        cell_filename = f"{output_path}{cell_name}.csv"
-        weather_time_series.to_csv(cell_filename)
+        output = pd.concat([output, weather_time_series])
+    cell_filename = f"{output_path}{cell_name}.csv"
+    output.to_csv(cell_filename)
