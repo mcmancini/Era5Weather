@@ -23,8 +23,10 @@ for year in range(FIRST_YEAR, LAST_YEAR + 1):
             "reanalysis-era5-single-levels",
             {
                 "product_type": "reanalysis",
+                "format": "netcdf",
                 "variable": [
                     "2m_temperature",
+                    "2m_dewpoint_temperature",
                     "surface_pressure",
                     "10m_u_component_of_wind",
                     "10m_v_component_of_wind",
@@ -34,6 +36,7 @@ for year in range(FIRST_YEAR, LAST_YEAR + 1):
                     "mean_surface_downward_long_wave_radiation_flux",
                     "total_sky_direct_solar_radiation_at_surface",
                     "surface_solar_radiation_downwards",
+                    "land_sea_mask",
                 ],
                 "year": str(year),
                 "month": f"{month:02d}",
@@ -102,7 +105,6 @@ for year in range(FIRST_YEAR, LAST_YEAR + 1):
                     49,
                     2,
                 ],
-                "format": "nc",
             },
             f"C:/Users/mcm216/Documents/OneDrive - University of Exeter/"
             f"Data/Climate Data/ERA5/era5_surface_ukeire_{year}-{month:02d}.nc",
