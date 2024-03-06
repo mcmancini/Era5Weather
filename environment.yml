@@ -3,9 +3,16 @@ channels:
   - defaults
   - conda-forge
 dependencies:
-  - python=3.12
+  - python=3.11
   - black
+  - gdal
+  - geopandas
+  - netcdf4
   - pre-commit
-  - pylint
   - pip
+  - pylint
+  - pyproj
+  - pyyaml
+  - scipy
+  - xarray
   - pip:
