@@ -53,7 +53,72 @@ for year in unique_years:
 
 # retrieve available lon and lats for all OS Grid 1km cells in the UK.
 os_data = gpd.read_file(f"{OSGRID_FOLDER}os_bng_grids.gpkg", layer="1km_grid")
+
+# only keep tiles that have some land
+os_tiles = [
+    "HO",
+    "HP",
+    "HT",
+    "HU",
+    "HW",
+    "HX",
+    "HY",
+    "HZ",
+    "NA",
+    "NB",
+    "NC",
+    "ND",
+    "NE",
+    "NF",
+    "NG",
+    "NH",
+    "NJ",
+    "NK",
+    "NL",
+    "NM",
+    "NN",
+    "NO",
+    "NP",
+    "NR",
+    "NS",
+    "NT",
+    "NU",
+    "NW",
+    "NX",
+    "NY",
+    "NZ",
+    "OV",
+    "SC",
+    "SD",
+    "SE",
+    "TA",
+    "SH",
+    "SJ",
+    "SK",
+    "TF",
+    "TG",
+    "SM",
+    "SN",
+    "SO",
+    "SP",
+    "TL",
+    "TM",
+    "SR",
+    "SS",
+    "ST",
+    "SU",
+    "TQ",
+    "TR",
+    "SV",
+    "SW",
+    "SX",
+    "SY",
+    "SZ",
+    "TV",
+]
+os_data_filtered = os_data[os_data["tile_name"].str[:2].isin(os_tiles)]
+
 create_directory(OUTPUT_FOLDER)
 
-for _, row in os_data.iterrows():
+for _, row in os_data_filtered.iterrows():
     rechunk_data(row, yearly_file_list=yearly_file_list, output_path=OUTPUT_FOLDER)
