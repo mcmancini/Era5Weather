@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
-# Copyright (c) 2024 LEEP, University of Exeter (UK)
-# Mattia Mancini (m.c.mancini@exeter.ac.uk), February 2024
-# ========================================================
+# Copyright (c) 2024 LEEP - University of Exeter (UK)
+# Mattia C. Mancini (m.c.mancini@exeter.ac.uk)
 """
-rechunk_era
-===========
+Sample script to download and rechunk ERA5 Reanalysis weather data from Copernicus
+using the CDS API (https://confluence.ecmwf.int/display/CKB/How+to+download+ERA5)
+More info on how to optimise data download can be found here:
+http://tinyurl.com/5dvy4evm
+
 ERA5 hourly weather reanalysis data are organised in files containing hourly time series
 of all weather variables for the whole of GB in monthly or yearly chunks.
 This script rechunks the data to create daily time series (averaging hourly data) for
@@ -14,25 +16,30 @@ many files as there are tiles.
 The output files can be stored in netcdf or csv format based on user needs.
 """
 
+
 import geopandas as gpd
 
 # import pandas as pd
 import xarray as xr
 
 from era_weather import app_config
+from era_weather.era_downloader import download_era
 from era_weather.rechunk_weather import rechunk_data
-from era_weather.utils import create_directory, list_files
+from era_weather.utils import create_directory, list_files, list_years
 
 # pylint: disable=E1101
 RAW_DATA_FOLDER = app_config.data_dirs["raw_era5_dir"]
 OUTPUT_FOLDER = app_config.data_dirs["output_dir"]
 OSGRID_FOLDER = app_config.data_dirs["osgrid_dir"]
 # pylint: enable=E1101
+FIRST_YEAR = 2016
+LAST_YEAR = 2021
+
+download_era(start_year=FIRST_YEAR, end_year=LAST_YEAR, download_path=RAW_DATA_FOLDER)
 
 
 # Check that all files have been aggregated from monthly to yearly first
-# unique_years = list_years(RAW_DATA_FOLDER)
-unique_years = [2016, 2017, 2018, 2019, 2020, 2021, 2022]
+unique_years = list_years(RAW_DATA_FOLDER)
 yearly_file_list = []
 for year in unique_years:
     # Has the data been already aggregated to yearly?
