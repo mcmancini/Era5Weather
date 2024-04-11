@@ -4,13 +4,17 @@ channels:
   - conda-forge
 dependencies:
   - python=3.11
-  - cdsapi
   - black
+  - gdal
+  - geopandas
+  - netcdf4
   - pre-commit
+  - pip
   - pylint
   - pyproj
   - pyyaml
+  - scipy
   - xarray
   - pip:
-    - scipy
+    - cdsapi
 
