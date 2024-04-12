@@ -33,7 +33,7 @@ OUTPUT_FOLDER = app_config.data_dirs["output_dir"]
 OSGRID_FOLDER = app_config.data_dirs["osgrid_dir"]
 # pylint: enable=E1101
 FIRST_YEAR = 2016
-LAST_YEAR = 2021
+LAST_YEAR = 2022
 
 download_era(start_year=FIRST_YEAR, end_year=LAST_YEAR, download_path=RAW_DATA_FOLDER)
 
