@@ -48,14 +48,16 @@ def download_era(start_year, end_year, download_path=DEFAULT_DOWNLOAD_PATH):
     """
     cds_client = cdsapi.Client()
     for year in range(start_year, end_year + 1):
-        yearly_filename = f"{download_path}/ERA5_{year}.nc"
+        yearly_filename = f"{download_path}/era5_surface_ukeire_{year}.nc"
         if os.path.exists(yearly_filename):
             print(f"Data for year '{year}' already downloaded. Skipping...")
             continue
         for month in range(1, 13):
             print("========================================================")
             print(f"Downloading data for year '{year}' and month '{month}' ...")
-            monthly_filename = f"{download_path}/ERA5_{year}_{month:02d}.nc"
+            monthly_filename = (
+                f"{download_path}/era5_surface_ukeire_{year}_{month:02d}.nc"
+            )
             if os.path.exists(monthly_filename):
                 print(
                     f"data for year '{year}' and month '{month}' "
