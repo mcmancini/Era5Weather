@@ -16,11 +16,11 @@ many files as there are tiles.
 The output files can be stored in netcdf or csv format based on user needs.
 """
 
-
 import geopandas as gpd
 
 # import pandas as pd
 import xarray as xr
+from joblib import Parallel, delayed
 
 from era_weather import app_config
 from era_weather.era_downloader import download_era
@@ -128,5 +128,14 @@ os_data_filtered = os_data[os_data["tile_name"].str[:2].isin(os_tiles)]
 
 create_directory(OUTPUT_FOLDER)
 
-for _, row in os_data_filtered.iterrows():
-    rechunk_data(row, yearly_file_list=yearly_file_list, output_path=OUTPUT_FOLDER)
+
+def process_row(row, file_list, output_path):
+    """Wrap rechunk_data function for parallelisation"""
+    rechunk_data(row, yearly_file_list=file_list, output_path=output_path)
+
+
+NUM_PROCESSES = 30
+Parallel(n_jobs=NUM_PROCESSES)(
+    delayed(process_row)(row, yearly_file_list, OUTPUT_FOLDER)
+    for _, row in os_data_filtered.iterrows()
+)
