@@ -29,6 +29,7 @@ def process_weather_cell(file, coords_lonlat):
     cell_df["hurs"] = relative_humidity(
         temperature=cell_df["tas"], dewpoint=cell_df["dp"]
     )
+    cell_df["tp"] = cell_df["tp"] / 1000 # rain in m!
 
     cell_daily = cell_df.groupby(cell_df.index.date).agg(
         tasmean=("tas", "mean"),
@@ -56,4 +57,6 @@ def rechunk_data(row, yearly_file_list, output_path):
         weather_time_series = process_weather_cell(file, coords_lonlat)
         output = pd.concat([output, weather_time_series])
     cell_filename = f"{output_path}{cell_name}.csv"
-    output.to_csv(cell_filename)
+    output.reset_index(inplace=True)
+    output.rename(columns={'index': 'date'}, inplace=True)
+    output.to_csv(cell_filename, index=False)
