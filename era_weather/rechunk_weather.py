@@ -29,7 +29,7 @@ def process_weather_cell(file, coords_lonlat):
     cell_df["hurs"] = relative_humidity(
         temperature=cell_df["tas"], dewpoint=cell_df["dp"]
     )
-    cell_df["tp"] = cell_df["tp"] / 1000 # rain in m!
+    cell_df["tp"] = cell_df["tp"] * 1000 # rain in m!
 
     cell_daily = cell_df.groupby(cell_df.index.date).agg(
         tasmean=("tas", "mean"),
