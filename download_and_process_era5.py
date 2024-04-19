@@ -54,7 +54,13 @@ for year in unique_years:
             )
         datasets = [xr.open_dataset(file) for file in monthly_files]
         combined_dataset = xr.concat(datasets, dim="time")
-        combined_dataset.to_netcdf(f"{RAW_DATA_FOLDER}/era5_surface_ukeire_{year}.nc")
+        encoding = {
+            var: {"dtype": combined_dataset[var].dtype}
+            for var in combined_dataset.data_vars
+        }
+        combined_dataset.to_netcdf(
+            f"{RAW_DATA_FOLDER}/era5_surface_ukeire_{year}.nc", encoding=encoding
+        )
         yearly_file = list_files(directory=RAW_DATA_FOLDER, year=year, monthly=False)
         yearly_file_list.append(yearly_file)
     yearly_file_list.append(yearly_file)
@@ -124,18 +130,13 @@ os_tiles = [
     "SZ",
     "TV",
 ]
+
 os_data_filtered = os_data[os_data["tile_name"].str[:2].isin(os_tiles)]
 
 create_directory(OUTPUT_FOLDER)
 
-
-def process_row(row, file_list, output_path):
-    """Wrap rechunk_data function for parallelisation"""
-    rechunk_data(row, yearly_file_list=file_list, output_path=output_path)
-
-
 NUM_PROCESSES = 30
 Parallel(n_jobs=NUM_PROCESSES)(
-    delayed(process_row)(row, yearly_file_list, OUTPUT_FOLDER)
+    delayed(rechunk_data)(row, yearly_file_list, OUTPUT_FOLDER)
     for _, row in os_data_filtered.iterrows()
 )
