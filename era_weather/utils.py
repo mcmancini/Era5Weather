@@ -20,11 +20,22 @@ lonlat2osgrid(coords, figs)
 
 create_directory(directory):
     Check if directory exists. If not, create it.
-"""
 
+validate_options(value):
+    Validate argument options passed to the parser when
+    running the download_and_process_era5.py script from terminal.
+
+
+count_processes():
+    Count the number of processes available in the system.
+
+"""
+import argparse
+import multiprocessing
 import os
 import re
-from math import floor, exp
+from math import exp, floor
+
 import numpy as np
 import pandas as pd
 from pyproj import Transformer
@@ -270,3 +281,26 @@ def relative_humidity(temperature, dewpoint):
         )
         return round(rel_humidity, 2)
     raise TypeError("Unsupported type. Please provide either pandas Series or floats.")
+
+
+def validate_options(value):
+    """
+    Function to validate argument options passed to the parser when
+    running the download_and_process_era5.py script from terminal.
+    """
+    valid_options = ["download", "process"]
+    if value not in valid_options:
+        raise argparse.ArgumentTypeError(
+            f"Invalid option: {value}. Choose from {valid_options}."
+        )
+    return value
+
+
+def count_processes():
+    """
+    Count the number of processes available in the system.
+    """
+    num_threads = multiprocessing.cpu_count()
+    if num_threads <= 2:
+        return num_threads
+    return num_threads - 2
