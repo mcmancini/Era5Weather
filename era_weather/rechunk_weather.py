@@ -40,6 +40,8 @@ def process_weather_cell(file, coords_lonlat):
         else:
             raise ValueError("Neither 'date' nor 'valid_time' column found in the DataFrame.")
 
+    cell_df['date'] = pd.to_datetime(cell_df['date'])
+    cell_df['date'] = cell_df['date'].dt.date
     cell_daily = cell_df.groupby(cell_df.date).agg(
         tasmean=("tas", "mean"),
         tasmin=("tas", "min"),
